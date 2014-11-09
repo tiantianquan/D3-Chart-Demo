@@ -1,0 +1,14 @@
+{
+  "name": "D3-Chart-Demo",
+  "version": "0.0.1",
+  "authors": [
+    "tiantianquan <fenqiufen@gmail.com>"
+  ],
+  "main": "index.html",
+  "license": "MIT",
+  "devDependencies": {
+    "d3": "~3.4.13",
+    "normalize.css": "~3.0.2",
+    "bootstrap-sass-official": "~3.3.0"
+  }
+}
