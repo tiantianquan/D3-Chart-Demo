@@ -10,7 +10,7 @@ var testData = [
   ['AUG', 1200],
   ['SEP', 600]
 ];
-
+var T;
 var Data = function(data) {
   this.originData = data
 
@@ -64,14 +64,7 @@ var ySale = d3.scale
   .domain([0, 2000])
   .range([height, 0]);
 
-var line = d3.svg.line()
-  .x(function(d, i) {
-    return i * barWidth;
-  })
-  .y(function(d) {
-    return y(d);
-  })
-  .interpolate("linear");
+
 
 var xAxis = d3.svg.axis()
   .scale(xSale)
@@ -120,10 +113,6 @@ var circlePoint = chart.selectAll('circlePoint')
     return y(d)
   })
 
-var path = chart
-  .append('path')
-  .datum(data.numArray)
-  .attr('d', line)
 
 var xLine = chart
   .append('g')
@@ -141,10 +130,88 @@ var yLine = chart
   .attr('class', 'axis')
   .call(yAxis)
 
-chart.selectAll("g").filter(function(d) {
-    return d;
-  })
-  .classed("minor", true);
+
+
+
+
+
+var linePath = chart
+  .append('path')
+  .datum(data.numArray)
+  // .attr('d', line)
+
+function getSmoothInterpolation() {
+  var interpolate = d3.scale.linear()
+    .domain([0, 1])
+    .range([1, data.numArray.length + 1]);
+
+  return function(t) {
+    var flooredX = Math.floor(interpolate(t));
+    var interpolatedLine = data.numArray.slice(0, flooredX);
+
+    if (flooredX > 0 && flooredX < data.numArray.length) {
+      var weight = interpolate(t) - flooredX;
+      var weightedLineAverage = data.numArray[flooredX] * weight + data.numArray[flooredX - 1] * (1 - weight);
+      interpolatedLine.push({
+        "x": interpolate(t) - 1,
+        "y": weightedLineAverage
+      });
+    }
+
+    return line(interpolatedLine);
+  }
+}
+
+
+var w = (data.numArray.length - 1) * barWidth
+var x = d3.scale
+  //线性的
+  .linear()
+  //数据大小范围
+  .domain([0, 1])
+  //数值越大,坐标越小,svg Y轴与普通坐标系是相反的
+  .range([0, w])
+
+
+function getInterpolation() {
+
+  var interpolate = d3.scale.linear()
+    .domain([0, 1])
+    .range([1, data.numArray.length + 1]);
+
+  return function(t) {
+    var line = d3.svg.line()
+      .x(function(d, i) {
+        if (d != data.numArray[i])
+          return (interpolate(t)-1)*barWidth
+        else
+          return i * barWidth;
+      })
+      .y(function(d) {
+        return y(d);
+      })
+      .interpolate('linear');
+    var flooredX = Math.floor(interpolate(t));
+    var interpolatedLine = data.numArray.slice(0, flooredX);
+
+    if (flooredX > 0 && flooredX < data.numArray.length) {
+      var weight = interpolate(t) - flooredX;
+      var weightedLineAverage = (data.numArray[flooredX] - data.numArray[flooredX - 1]) * weight + data.numArray[flooredX - 1];
+      interpolatedLine.push(weightedLineAverage);
+    }
+    return line(interpolatedLine);
+  }
+}
+
+linePath
+  .transition()
+  .duration(7000)
+  .attrTween('d', getInterpolation);
+
+// chart.selectAll("g").filter(function(d) {
+//     return d;
+//   })
+//   .classed("minor", true);
 
 
 
