@@ -205,7 +205,7 @@ function getInterpolation() {
 
 linePath
   .transition()
-  .duration(7000)
+  .duration(70000)
   .attrTween('d', getInterpolation);
 
 // chart.selectAll("g").filter(function(d) {
