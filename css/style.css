@@ -4660,7 +4660,7 @@ div.main-box {
   margin-top: 100px;
   padding: 10px !important;
   width: 400px;
-  height: 250px;
+  height: 300px;
   background-color: #fafafa; }
 
 .chart rect, circle {
@@ -4688,3 +4688,15 @@ div.main-box {
 path.area {
   fill: #ecf5fa;
   stroke-width: 0; }
+
+.point-text {
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  cursor: pointer; }
+
+g.point-g:hover .point-text {
+  visibility: visible;
+  opacity: 1; }
