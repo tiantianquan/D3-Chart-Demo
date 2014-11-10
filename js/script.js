@@ -202,7 +202,6 @@ circlePoint.append('circle')
       if (t <= 0.7)
         return interpolate(t)
       else
-        console.log(interpolate2(t))
         return interpolate2(t)
     }
   })
