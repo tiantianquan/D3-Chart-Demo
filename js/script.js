@@ -152,6 +152,7 @@ function getInterpolation() {
         return y(d);
       })
       .interpolate('linear');
+      
     var flooredX = Math.floor(interpolate(t));
     var interpolatedLine = data.numArray.slice(0, flooredX);
 
