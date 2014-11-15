@@ -127,11 +127,11 @@ var yLine = chart
   //----------------------------
 
 //-------------线
+
 var linePath = chart
   .append('path')
   .datum(data.numArray)
-  // .attr('d', line)
-
+  .attr('class', 'the-line')
 
 function getInterpolation() {
 
@@ -152,7 +152,7 @@ function getInterpolation() {
         return y(d);
       })
       .interpolate('linear');
-      
+
     var flooredX = Math.floor(interpolate(t));
     var interpolatedLine = data.numArray.slice(0, flooredX);
 
@@ -165,10 +165,35 @@ function getInterpolation() {
   }
 }
 
-linePath
-  .transition()
-  .duration(3000)
-  .attrTween('d', getInterpolation);
+// linePath
+//   .transition()
+//   .duration(3000)
+//   .attrTween('d', getInterpolation);
+
+//另一种动画方法 使用虚线
+function otherAnimate() {
+  var line = d3.svg.line()
+    .x(function(d, i) {
+      return i * barWidth;
+    })
+    .y(function(d) {
+      return y(d);
+    })
+    .interpolate('linear')
+
+  linePath
+    .attr('d', line)
+    .style('transition', 'transition:stroke-dashoffset 1s')
+    .style('stroke-dasharray', function() {
+      return this.getTotalLength()
+    })
+    .style('stroke-dashoffset', function() {
+      return this.getTotalLength()
+    })
+}
+
+otherAnimate()
+
 
 //--------------------------------------
 

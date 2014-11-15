@@ -53,3 +53,12 @@ g.point-g:hover {
   }
 }
 
+.the-line{
+  @include animation(dash 3s forwards)
+}
+
+@include keyframes(dash){
+  to{
+    stroke-dashoffset:0;
+  }
+}
