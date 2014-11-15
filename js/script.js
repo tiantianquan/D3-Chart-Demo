@@ -183,13 +183,15 @@ function otherAnimate() {
 
   linePath
     .attr('d', line)
-    .style('transition', 'transition:stroke-dashoffset 1s')
-    .style('stroke-dasharray', function() {
+    .attr('stroke-dasharray', function() {
       return this.getTotalLength()
     })
-    .style('stroke-dashoffset', function() {
+    .attr('stroke-dashoffset', function() {
       return this.getTotalLength()
     })
+    .transition()
+    .attr('stroke-dashoffset', 0)
+    .duration(3000)
 }
 
 otherAnimate()

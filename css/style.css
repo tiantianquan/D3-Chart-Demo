@@ -4700,20 +4700,3 @@ path.area {
 g.point-g:hover .point-text {
   visibility: visible;
   opacity: 1; }
-
-.the-line {
-  -webkit-animation: dash 3s forwards;
-  -o-animation: dash 3s forwards;
-  animation: dash 3s forwards; }
-
-@-webkit-keyframes dash {
-  to {
-    stroke-dashoffset: 0; } }
-
-@-moz-keyframes dash {
-  to {
-    stroke-dashoffset: 0; } }
-
-@keyframes dash {
-  to {
-    stroke-dashoffset: 0; } }
